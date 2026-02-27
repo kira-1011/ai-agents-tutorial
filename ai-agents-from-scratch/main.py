@@ -1,6 +1,9 @@
-import keyboard
+from agent import Agent, Memory, Model, Tool
 
-from agent import Agent, Memory, Model
+
+def add(x, y):
+    return x + y
+
 
 if __name__ == "__main__":
     MODEL_NAME = "ai/smollm2"
@@ -8,17 +11,20 @@ if __name__ == "__main__":
 
     model = Model(name=MODEL_NAME, base_url=MODEL_BASE_URL)
     memory = Memory()
+    tools = [
+        Tool(
+            name="add",
+            description="Add two numbers. x:int y:int ex: add(x=2, y=3) => 5",
+            function=add,
+        )
+    ]
     my_agent = Agent(
         name="Assistant",
         description="A helpful assistant.",
         task="You are a helpful assistant.",
         model=model,
         memory=memory,
+        tools=tools,
     )
-    while not keyboard.is_pressed("esc"):
-        user_input = input("User: ")
-        output = my_agent.chat_completion(user_input)
-        print(f"Assistant: {output}")
 
-        memory.add({"role": "user", "content": user_input})
-        memory.add({"role": "assistant", "content": output})
+    my_agent.run()
