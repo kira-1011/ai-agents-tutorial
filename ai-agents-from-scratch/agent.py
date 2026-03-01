@@ -1,14 +1,15 @@
+from dataclasses import dataclass, field
 from typing import Callable, List
 
 import keyboard
 import requests
 
 
+@dataclass
 class Tool:
-    def __init__(self, name: str, description: str, function: Callable):
-        self.name = name
-        self.description = description
-        self.function = function
+    name: str
+    description: str
+    function: Callable
 
     def execute(self, arguments: dict):
         return self.function(**arguments)
@@ -25,17 +26,17 @@ class Memory:
         self.memory.append(item)
 
 
+@dataclass
 class State:
-    def __init__(self, step: int = 0, status: str = ""):
-        self.step = step
-        self.status = status
+    step: int = 0
+    status: str = ""
 
 
+@dataclass
 class Model:
-    def __init__(self, name: str, base_url: str, params: dict = {}):
-        self.name = name
-        self.base_url = base_url
-        self.params = params
+    name: str
+    base_url: str
+    params: dict = field(default_factory=dict)
 
     def generate(self, user_input: str) -> str:
         headers = {
