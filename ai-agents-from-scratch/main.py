@@ -1,7 +1,7 @@
 import platform
 import subprocess
 
-from agent import Agent, Memory, Model, Tool
+from agent import Agent, Model, Tool
 
 IS_WINDOWS = platform.system() == "Windows"
 
@@ -68,7 +68,6 @@ if __name__ == "__main__":
     MODEL_BASE_URL = "http://localhost:12434/engines/llama.cpp/v1/chat/completions"
 
     model = Model(name=MODEL_NAME, base_url=MODEL_BASE_URL)
-    memory = Memory()
     tools = [
         Tool(
             name="run_terminal",
@@ -92,7 +91,6 @@ if __name__ == "__main__":
         description="A personal file assistant with terminal access.",
         task="Help users create, read, and update files using terminal commands. Use the run_terminal tool to execute commands like 'cat' to read files, 'echo > file' to create files, and 'type' or 'dir' to list and view files.",
         model=model,
-        memory=memory,
         tools=tools,
     )
 
