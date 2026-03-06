@@ -61,14 +61,14 @@ class Agent:
         self,
         name: str,
         description: str,
-        task: str,
+        instruction: str,
         model: Model,
         tools: List[Tool] = [],
         max_steps: int = 10,
     ):
         self.name = name
         self.description = description
-        self.task = task  # system prompt
+        self.instruction = instruction  # system prompt
         self.model = model
         self.tools = tools
         self.memory = Memory()
@@ -80,7 +80,7 @@ class Agent:
         )
 
         self.SYSTEM_PROMPT = f"""You are {self.name}, {self.description}.
-Your main task/role: {self.task}.
+Your main task/role: {self.instruction}.
 
 Available tools:
 {tool_descriptions}
